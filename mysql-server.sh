@@ -44,7 +44,7 @@ VALIDATE $? "Enabling MySQL Server"
 sudo sed -i 's/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf >> $LOG_FILE_NAME 2>&1
 sudo sed -i 's/^mysqlx-bind-address\s*=\s*127.0.0.1/mysqlx-bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf >> $LOG_FILE_NAME 2>&1
 
-systemctl start mysql.service >> $LOG_FILE_NAME 2>&1
+systemctl restart mysql.service >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Starting MySQL Server"
 
 mysql < /root/expense-ubuntu-shell/databaseusercreation.sql >> $LOG_FILE_NAME 2>&1
