@@ -1,0 +1,4 @@
+ use mysql;
+ CREATE USER 'root'@'%' IDENTIFIED BY 'Harini@2024';
+ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+ FLUSH PRIVILEGES;

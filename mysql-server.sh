@@ -41,16 +41,14 @@ VALIDATE $? "Installing MySQL Server"
 systemctl enable mysql.service >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Enabling MySQL Server"
 
+sudo sed -i 's/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf >> $LOG_FILE_NAME 2>&1
+sudo sed -i 's/^mysqlx-bind-address\s*=\s*127.0.0.1/mysqlx-bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf >> $LOG_FILE_NAME 2>&1
+
 systemctl start mysql.service >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Starting MySQL Server"
 
-mysql -h mysql.learndevopsacademy.online -u root -pExpenseApp@1 -e 'show databases;' >> $LOG_FILE_NAME 2>&1
+mysql < databaseusercreation.sql >> $LOG_FILE_NAME 2>&1
+VALIDATE $? "Database user Creation"
 
-if [ $? -ne 0 ]
-then
-    echo "MySQL Root password not setup" >> $LOG_FILE_NAME 2>&1
-    mysql_secure_installation --set-root-pass ExpenseApp@1
-    VALIDATE $? "Setting Root Password"
-else
-    echo -e "MySQL Root password already setup ... $Y SKIPPING $N"
-fi
+mysql -h mysql.learndevopsacademy.online -u root -pHarini@2024 -e 'show databases;' >> $LOG_FILE_NAME 2>&1
+VALIDATE $? "Database Connectivity is Success with new root user"
