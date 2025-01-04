@@ -15,6 +15,8 @@ apt update -y >> $LOG_FILE_NAME 2>&1
 
 apt install unzip >> $LOG_FILE_NAME 2>&1
 
+apt install npm >> $LOG_FILE_NAME 2>&1
+
 echo "Script started executing at: $TIMESTAMP"
 
 VALIDATE(){
