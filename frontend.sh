@@ -11,12 +11,6 @@ LOG_FILE=$(echo $0 | cut -d "." -f1 )
 TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
 LOG_FILE_NAME="$LOGS_FOLDER/$LOG_FILE-$TIMESTAMP.log"
 
-apt update -y >> $LOG_FILE_NAME 2>&1
-
-apt install unzip >> $LOG_FILE_NAME 2>&1
-
-echo "Script started executing at: $TIMESTAMP"
-
 VALIDATE(){
     if [ $1 -ne 0 ]
     then
@@ -36,32 +30,33 @@ CHECK_ROOT(){
 }
 
 mkdir -p $LOGS_FOLDER
+echo "Script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
 
 CHECK_ROOT
 
-apt install nginx -y  >> $LOG_FILE_NAME 2>&1
+dnf install nginx -y  &>>$LOG_FILE_NAME
 VALIDATE $? "Installing Nginx Server"
 
-systemctl enable nginx >> $LOG_FILE_NAME 2>&1
+systemctl enable nginx &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling Nginx server"
 
-systemctl start nginx >> $LOG_FILE_NAME 2>&1
+systemctl start nginx &>>$LOG_FILE_NAME
 VALIDATE $? "Starting Nginx Server"
 
-rm -rf /usr/share/nginx/html/* >> $LOG_FILE_NAME 2>&1
+rm -rf /usr/share/nginx/html/* &>>$LOG_FILE_NAME
 VALIDATE $? "Removing existing version of code"
 
-curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip >> $LOG_FILE_NAME 2>&1
+curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOG_FILE_NAME
 VALIDATE $? "Downloading Latest code"
 
 cd /usr/share/nginx/html
 VALIDATE $? "Moving to HTML directory"
 
-unzip /tmp/frontend.zip >> $LOG_FILE_NAME 2>&1
+unzip /tmp/frontend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "unzipping the frontend code"
 
-cp /root/expense-ubuntu-shell/expense.conf /etc/nginx/default.d/expense.conf
+cp /home/ec2-user/expense-shell/expense.conf /etc/nginx/default.d/expense.conf
 VALIDATE $? "Copied expense config"
 
-systemctl restart nginx >> $LOG_FILE_NAME 2>&1
+systemctl restart nginx &>>$LOG_FILE_NAME
 VALIDATE $? "Restarting nginx"
