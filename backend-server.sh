@@ -37,48 +37,48 @@ CHECK_ROOT(){
 
 CHECK_ROOT
 
-apt install nodejs -y &>>$LOG_FILE_NAME
+apt install nodejs -y >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Installing NodeJS"
 
-id expense &>>$LOG_FILE_NAME
+id expense >> $LOG_FILE_NAME 2>&1
 if [ $? -ne 0 ]
 then
-    useradd expense &>>$LOG_FILE_NAME
+    useradd expense >> $LOG_FILE_NAME 2>&1
     VALIDATE $? "Adding expense user"
 else
     echo -e "expense user already exists ... $Y SKIPPING $N"
 fi
 
-mkdir -p /app &>>$LOG_FILE_NAME
+mkdir -p /app >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Creating app directory"
 
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip  >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Downloading backend"
 
 cd /app
 rm -rf /app/*
 
-unzip /tmp/backend.zip &>>$LOG_FILE_NAME
+unzip /tmp/backend.zip >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "unzip backend"
 
-npm install &>>$LOG_FILE_NAME
+npm install >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Installing dependencies"
 
 cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
 
 # Prepare MySQL Schema
 
-apt install mysql -y &>>$LOG_FILE_NAME
+apt install mysql -y >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Installing MySQL Client"
 
-mysql -h mysql.learndevopsacademy.online -uroot -pHarini@2024 < /app/schema/backend.sql &>>$LOG_FILE_NAME
+mysql -h mysql.learndevopsacademy.online -uroot -pHarini@2024 < /app/schema/backend.sql >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Setting up the transactions schema and tables"
 
-systemctl daemon-reload &>>$LOG_FILE_NAME
+systemctl daemon-reload >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Daemon Reload"
 
-systemctl enable backend &>>$LOG_FILE_NAME
+systemctl enable backend >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Enabling backend"
 
-systemctl restart backend &>>$LOG_FILE_NAME
+systemctl restart backend >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Starting Backend"
