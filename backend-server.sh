@@ -70,7 +70,7 @@ cp /root/expense-ubuntu-shell/backend.service /etc/systemd/system/backend.servic
 
 # Prepare MySQL Schema
 
-apt install mysql -y >> $LOG_FILE_NAME 2>&1
+apt install mysql-client-core-8.0 -y >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Installing MySQL Client"
 
 mysql -h mysql.learndevopsacademy.online -uroot -pHarini@2024 < /app/schema/backend.sql >> $LOG_FILE_NAME 2>&1
