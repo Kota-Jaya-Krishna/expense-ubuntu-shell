@@ -60,7 +60,7 @@ VALIDATE $? "Moving to HTML directory"
 unzip /tmp/frontend.zip >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "unzipping the frontend code"
 
-cp /home/ec2-user/expense-shell/expense.conf /etc/nginx/default.d/expense.conf
+cp /root/expense-ubuntu-shell/expense.conf /etc/nginx/default.d/expense.conf
 VALIDATE $? "Copied expense config"
 
 systemctl restart nginx >> $LOG_FILE_NAME 2>&1
