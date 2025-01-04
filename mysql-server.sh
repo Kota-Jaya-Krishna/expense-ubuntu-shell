@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt update -y
+apt update -y >> $LOG_FILE_NAME 2>&1
 
 USERID=$(id -u)
 R="\e[31m"
@@ -31,24 +31,24 @@ CHECK_ROOT(){
     fi
 }
 
-echo "Script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
+echo "Script started executing at: $TIMESTAMP" >> $LOG_FILE_NAME 2>&1
 
 CHECK_ROOT
 
-apt install mysql-server -y &>>$LOG_FILE_NAME
+apt install mysql-server -y >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Installing MySQL Server"
 
-systemctl enable mysqld &>>$LOG_FILE_NAME
+systemctl enable mysqld >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Enabling MySQL Server"
 
-systemctl start mysqld &>>$LOG_FILE_NAME
+systemctl start mysqld >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Starting MySQL Server"
 
-mysql -h mysql.learndevopsacademy.online -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE_NAME
+mysql -h mysql.learndevopsacademy.online -u root -pExpenseApp@1 -e 'show databases;' >> $LOG_FILE_NAME 2>&1
 
 if [ $? -ne 0 ]
 then
-    echo "MySQL Root password not setup" &>>$LOG_FILE_NAME
+    echo "MySQL Root password not setup" >> $LOG_FILE_NAME 2>&1
     mysql_secure_installation --set-root-pass ExpenseApp@1
     VALIDATE $? "Setting Root Password"
 else
