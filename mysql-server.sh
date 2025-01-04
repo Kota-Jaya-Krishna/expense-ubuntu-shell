@@ -38,10 +38,10 @@ CHECK_ROOT
 apt install mysql-server -y >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Installing MySQL Server"
 
-systemctl enable mysqld >> $LOG_FILE_NAME 2>&1
+systemctl enable mysql.service >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Enabling MySQL Server"
 
-systemctl start mysqld >> $LOG_FILE_NAME 2>&1
+systemctl start mysql.service >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Starting MySQL Server"
 
 mysql -h mysql.learndevopsacademy.online -u root -pExpenseApp@1 -e 'show databases;' >> $LOG_FILE_NAME 2>&1
