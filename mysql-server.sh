@@ -32,8 +32,6 @@ CHECK_ROOT(){
     fi
 }
 
-echo "Script started executing at: $TIMESTAMP" >> $LOG_FILE_NAME 2>&1
-
 CHECK_ROOT
 
 apt install mysql-server -y >> $LOG_FILE_NAME 2>&1
