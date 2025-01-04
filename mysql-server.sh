@@ -47,7 +47,7 @@ sudo sed -i 's/^mysqlx-bind-address\s*=\s*127.0.0.1/mysqlx-bind-address = 0.0.0.
 systemctl start mysql.service >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Starting MySQL Server"
 
-mysql < databaseusercreation.sql >> $LOG_FILE_NAME 2>&1
+mysql < /root/expense-ubuntu-shell/databaseusercreation.sql >> $LOG_FILE_NAME 2>&1
 VALIDATE $? "Database user Creation"
 
 mysql -h mysql.learndevopsacademy.online -u root -pHarini@2024 -e 'show databases;' >> $LOG_FILE_NAME 2>&1
