@@ -13,7 +13,7 @@ LOG_FILE_NAME="$LOGS_FOLDER/$LOG_FILE-$TIMESTAMP.log"
 
 apt update -y >> $LOG_FILE_NAME 2>&1
 
-echo "Script started executing at: $TIMESTAMP" >> $LOG_FILE_NAME 2>&1
+echo "Script started executing at: $TIMESTAMP"
 
 VALIDATE(){
     if [ $1 -ne 0 ]
